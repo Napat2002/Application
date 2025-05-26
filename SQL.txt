@@ -1,0 +1,14 @@
+SELECT
+    b.RegionCode, 
+    b.BranchCode, 
+    COUNT(b.AppId) AS TotalApplications, 
+    RANK() OVER (ORDER BY COUNT(b.AppId) DESC) AS ApplicationRank 
+FROM
+    Branch b
+WHERE
+    YEAR(b.AppDate) = YEAR(CURRENT_DATE()) - 1
+GROUP BY
+    b.RegionCode,
+    b.BranchCode
+ORDER BY
+    TotalApplications DESC
